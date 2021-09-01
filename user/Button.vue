@@ -1,22 +1,33 @@
 <template>
-  <v-row
-    no-gutters
-    align="center"
-    >
-    <v-col>
-      <v-btn 
-        v-bind="$attrs"
-        :color="color"
-        :href="showlink"
-        fab
-        >
-        <v-avatar :size="avatarSize" >
-          <img :src="gravatar(user.emailHash, avatarSize, user.gravType)" />
-        </v-avatar>
-      </v-btn>
-      <span class="ml-1"><slot></slot></span>
-    </v-col>
-  </v-row>
+  <fragment>
+    <v-btn 
+      v-if="!bottom"
+      v-bind="attrs"
+      :color="color"
+      :href="showlink"
+      fab
+      >
+      <v-avatar :size="avatarSize" >
+        <img :src="gravatar(user.emailHash, avatarSize, user.gravType)" />
+      </v-avatar>
+    </v-btn>
+    <slot v-if="!bottom"></slot>
+    <div v-if="bottom">
+    <v-btn 
+      v-bind="attrs"
+      :color="color"
+      :href="showlink"
+      fab
+      >
+      <v-avatar :size="avatarSize" >
+        <img :src="gravatar(user.emailHash, avatarSize, user.gravType)" />
+      </v-avatar>
+    </v-btn>
+    </div>
+    <div v-if="bottom" class="mt-1">
+    <slot></slot>
+    </div>
+  </fragment>
 </template>
 
 <script>
@@ -38,9 +49,32 @@ export default {
     }
   },
   computed: {
+    direction: function () {
+      if (this.bottom) {
+        return "flex-column"
+      }
+      return "flex-row"
+    },
+    margin: function () {
+      if (this.bottom) {
+        return ""
+      }
+      return "ml-1"
+    },
+    attrs: function () {
+      let obj = this.$attrs
+      if (_.has(this.$attrs, 'xx-small')) {
+        obj.height = 18
+        obj.width = 18
+      }
+      return obj
+    },
     avatarSize: function () {
+      if (_.has(this.$attrs, 'xx-small')) {
+        return 14
+      }
       if (_.has(this.$attrs, 'x-small')) {
-        return 24
+        return 26
       }
       if (_.has(this.$attrs, 'small')) {
         return 30
@@ -49,6 +83,12 @@ export default {
         return 48
       }
       return 54
+    },
+    bottom: function () {
+      if (_.has(this.$attrs, 'bottom')) {
+        return true
+      }
+      return false
     },
     showlink: function () {
       var self = this

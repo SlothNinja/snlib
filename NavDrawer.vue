@@ -8,7 +8,7 @@
   >
   <v-list-item v-if='cu'>
       <v-list-item-icon>
-        <sn-user-btn size='x-small' :user='cu' ></sn-user-btn>
+        <sn-user-btn x-small :user='cu' ></sn-user-btn>
       </v-list-item-icon>
       <v-list-item-content>
         <v-list-item-title>
@@ -40,7 +40,7 @@
           <v-list-item-title>Home</v-list-item-title>
         </v-list-item-content>
       </v-list-item>
-      <v-list-item :to="{ name: 'sng-ugames', params: { status: 'running', type: 'all', uid: cuid} }" exact>
+      <v-list-item v-if="cu" :to="{ name: 'sng-ugames', params: { status: 'running', type: 'all', uid: cuid} }" exact>
         <v-list-item-icon>
           <v-icon>mdi-account-details</v-icon>
         </v-list-item-icon>

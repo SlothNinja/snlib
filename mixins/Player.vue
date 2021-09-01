@@ -8,11 +8,7 @@
     mixins: [ CurrentUser ],
     computed: {
       cp: function () {
-        let pid = this.pidByUID(this.cuid)
-        if (_.includes(this.game.cpids, pid)) {
-          return this.playerByPID(pid)
-        }
-        return _.first(this.cps)
+        return this.playerByPID(this.cpid)
       },
       cps: function () {
         let self = this
@@ -21,7 +17,11 @@
         })
       },
       cpid: function () {
-        return _.get(this.game.cpids, 0, -1)
+        let pid = this.pidByUID(this.cuid)
+        return _.includes(this.game.cpids, pid) ? pid : _.first(this.cpids)
+      },
+      cpids: function () {
+        return _.get(this.game, 'cpids', null)
       },
       isCP: function () {
         return this.isPlayerFor(this.cp, this.$root.cu)
@@ -48,8 +48,9 @@
         return _.find(this.game.players, ['id', pid])
       },
       playersByPIDS: function (pids) {
+        let self = this
         return _.map(pids, function (pid) {
-          return this.playerByPID(pid)
+          return self.playerByPID(pid)
         })
       },
       playerByUser: function (u) {
@@ -75,47 +76,39 @@
         return player.id
       },
       isPlayerFor: function (player, user) {
-        let pid = this.uidFor(player)
-        let uid = _.get(user, 'id', -2)
-        return pid === uid
+        let pid = _.get(player, 'id', -1)
+        if (pid == -1) {
+          return false
+        }
+        let uid1 = this.uidFor(player.id)
+        let uid2 = _.get(user, 'id', -2)
+        return uid1 === uid2
       },
       uidIndex: function (uid) {
         return _.indexOf(this.game.userIds, uid)
       },
-      nameFor: function (p) {
-        if (p) {
-          let index = p.id - 1
-          return this.game.userNames[index]
-        }
-        return ""
+      nameFor: function (pid) {
+        let index = pid - 1
+        return this.game.userNames[index]
       },
-      uidFor: function (p) {
-        if (p) {
-          let index = p.id - 1
-          return this.game.userIds[index]
-        }
-        return -1
+      uidFor: function (pid) {
+        let index = pid - 1
+        return this.game.userIds[index]
       },
-      emailHashFor: function (p) {
-        if (p) {
-          let index = p.id - 1
-          return this.game.userEmailHashes[index]
-        }
-        return -1
+      emailHashFor: function (pid) {
+        let index = pid - 1
+        return this.game.userEmailHashes[index]
       },
-      gravTypeFor: function (p) {
-        if (p) {
-          let index = p.id - 1
-          return this.game.userGravTypes[index]
-        }
-        return -1
+      gravTypeFor: function (pid) {
+        let index = pid - 1
+        return this.game.userGravTypes[index]
       },
-      userFor: function (p) {
+      userFor: function (pid) {
         return {
-          id: this.uidFor(p),
-          name: this.nameFor(p),
-          emailHash: this.emailHashFor(p),
-          gravType: this.gravTypeFor(p)
+          id: this.uidFor(pid),
+          name: this.nameFor(pid),
+          emailHash: this.emailHashFor(pid),
+          gravType: this.gravTypeFor(pid)
         }
       },
     }
