@@ -134,7 +134,7 @@ export default {
     _.forEach(this.routes, route => this.$router.addRoute(route))
   },
   computed: {
-    sngGames: () => [ 'atf', 'confucius', 'indonesia', 'all' ],
+    sngGames: () => [ 'atf', 'confucius', 'indonesia', 'tammany', 'all' ],
     routes: function () {
       return [
         {
