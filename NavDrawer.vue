@@ -135,6 +135,7 @@ export default {
   },
   computed: {
     sngGames: () => [ 'atf', 'confucius', 'indonesia', 'tammany', 'all' ],
+    sngXGames: () => [ 'atf', 'confucius' ],
     routes: function () {
       return [
         {
@@ -172,7 +173,11 @@ export default {
           beforeEnter: (to, from, next) => {
             if (_.includes(this.sngGames, to.params.type)) {
               let sngHome = process.env.VUE_APP_SNG_HOME
-              window.location.replace(`${sngHome}${to.params.type}/games/recruiting`)
+              if (_.includes(this.sngXGames, to.params.type)) {
+                window.location.replace(`${sngHome}#/invitations/${to.params.type}`)
+              } else {
+                window.location.replace(`${sngHome}${to.params.type}/games/recruiting`)
+              }
               next()
             } else {
               let game = process.env.VUE_APP_GAME
@@ -192,7 +197,11 @@ export default {
           beforeEnter: (to, from, next) => {
             if (_.includes(this.sngGames, to.params.type)) {
               let sngHome = process.env.VUE_APP_SNG_HOME
-              window.location.replace(`${sngHome}${to.params.type}/game/new`)
+              if (_.includes(this.sngXGames, to.params.type)) {
+                window.location.replace(`${sngHome}#/invitation/new/${to.params.type}`)
+              } else {
+                window.location.replace(`${sngHome}${to.params.type}/game/new`)
+              }
               next()
             } else {
               let game = process.env.VUE_APP_GAME

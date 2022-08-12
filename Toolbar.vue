@@ -22,7 +22,7 @@
       </v-col>
       <v-col cols='auto' align='right'>
         <v-card :to="{ name: 'sng-home' }" color='white' min-width='100' >
-          <v-img width='100' :src="imagePath('logo')" />
+          <v-img width='100' :src="imagePath('logo100')" />
         </v-card>
       </v-col>
     </v-row>
