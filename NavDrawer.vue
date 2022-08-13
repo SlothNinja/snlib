@@ -104,6 +104,14 @@
             <v-list-item-title>{{item.title}}</v-list-item-title>
           </v-list-item>
         </v-list-group>
+        <v-list-item :to="{ name: 'forum'}" >
+          <v-list-item-icon>
+            <v-icon>mdi-forum</v-icon>
+          </v-list-item-icon>
+          <v-list-item-content>
+            <v-list-item-title>Forum</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
         <v-list-item :to="{ name: 'logout'}" >
           <v-list-item-icon>
             <v-icon>mdi-logout</v-icon>
@@ -242,6 +250,13 @@ export default {
             let sngHome = process.env.VUE_APP_SNG_HOME
             window.location.replace(sngHome)
             next()
+          }
+        },
+        {
+          path: '/forum',
+          name: 'forum',
+          beforeEnter() {
+            window.location.replace('https://groups.google.com/g/slothninja')
           }
         },
         {
