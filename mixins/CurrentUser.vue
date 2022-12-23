@@ -33,6 +33,9 @@
         set: function (value) {
           this.$root.cuLoading = value
         }
+      },
+      isAdmin: function () {
+        return _.get(this.cu, 'admin', false)
       }
     }
   }

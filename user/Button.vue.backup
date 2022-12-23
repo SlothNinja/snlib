@@ -1,47 +1,19 @@
 <template>
-  <fragment>
-    <div
-      v-if="!bottom"
-      class="d-flex"
+  <div style="max-width: fit-content" class="d-flex align-center" :class="direction">
+    <v-btn 
+      v-bind="attrs"
+      :color="color"
+      :href="showlink"
+      fab
       >
-      <div class="d-flex align-center">
-        <v-btn 
-          v-bind="attrs"
-          :color="color"
-          :href="showlink"
-          fab
-          >
-          <v-avatar :size="avatarSize" class="d-line-flex">
-            <img :src="gravatar(user.emailHash, avatarSize, user.gravType)" />
-          </v-avatar>
-        </v-btn>
-      </div>
-      <div class="d-flex align-center mx-1">
-        <slot></slot>
-      </div>
+      <v-avatar :size="avatarSize" >
+        <img :src="gravatar(user.emailHash, avatarSize, user.gravType)" />
+      </v-avatar>
+    </v-btn>
+    <div :class="margin">
+      <slot></slot>
     </div>
-
-    <div
-      v-if="bottom"
-      class="d-flex flex-column"
-      >
-      <div class="d-flex justify-center">
-        <v-btn 
-          v-bind="attrs"
-          :color="color"
-          :href="showlink"
-          fab
-          >
-          <v-avatar :size="avatarSize" >
-            <img :src="gravatar(user.emailHash, avatarSize, user.gravType)" />
-          </v-avatar>
-        </v-btn>
-      </div>
-      <div class="d-flex justify-center">
-        <slot></slot>
-      </div>
-    </div>
-  </fragment>
+  </div>
 </template>
 
 <script>
@@ -78,14 +50,14 @@ export default {
     attrs: function () {
       let obj = this.$attrs
       if (_.has(this.$attrs, 'xx-small')) {
-        obj.height = 18
-        obj.width = 18
+        obj.height = 16
+        obj.width = 16
       }
       return obj
     },
     avatarSize: function () {
       if (_.has(this.$attrs, 'xx-small')) {
-        return 14
+        return 12
       }
       if (_.has(this.$attrs, 'x-small')) {
         return 26

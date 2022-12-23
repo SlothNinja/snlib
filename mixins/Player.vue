@@ -17,6 +17,10 @@
         })
       },
       cpid: function () {
+        if (_.isNull(this.cpids)) {
+          return null
+        }
+
         let pid = this.pidByUID(this.cuid)
         return _.includes(this.game.cpids, pid) ? pid : _.first(this.cpids)
       },
@@ -24,13 +28,10 @@
         return _.get(this.game, 'cpids', null)
       },
       isCP: function () {
-        return this.isPlayerFor(this.cp, this.$root.cu)
+        return this.isPlayerFor(this.cp, this.cu)
       },
       isCPS: function () {
-        let self = this
-        return _.some(self.cps, function (p) {
-          return self.isPlayerFor(p, self.$root.cu)
-        })
+        return _.some(this.cps, p => this.isPlayerFor(p, this.$root.cu))
       },
       isCPorAdmin: function () {
         return (this.$root.cu && this.$root.cu.admin) || this.isCP
@@ -45,7 +46,8 @@
         return this.cpid == pid
       },
       playerByPID: function (pid) {
-        return _.find(this.game.players, ['id', pid])
+        let found = _.find(this.game.players, ['id', pid])
+        return _.isUndefined(found) ? null : found
       },
       playersByPIDS: function (pids) {
         let self = this
